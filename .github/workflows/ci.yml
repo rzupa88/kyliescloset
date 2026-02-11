@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  repo-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fail on trailing whitespace (tracked files)
+        run: |
+          set -e
+          # Search tracked files only; ignore binary images by extension.
+          files=$(git ls-files | grep -vE '\.(png|jpg|jpeg|webp|gif|ico)$' || true)
+          if [ -n "$files" ]; then
+            if echo "$files" | xargs -I{} bash -lc "grep -nI $'[ \t]$' '{}' && echo '---'" ; then
+              echo "Trailing whitespace found. Please remove it."
+              exit 1
+            fi
+          fi
+
+      - name: Ensure required docs exist
+        run: |
+          test -f README.md
+          test -f docs/architecture.md
+          test -f docs/decisions/0001-tech-stack.md
+
+      - name: Validate workflow YAML (basic)
+        run: |
+          python - << 'PY'
+          import sys, pathlib
+          try:
+            import yaml
+          except Exception:
+            print("PyYAML not installed; skipping YAML validation.")
+            sys.exit(0)
+          for p in pathlib.Path(".github/workflows").glob("*.yml"):
+            yaml.safe_load(p.read_text())
+          print("YAML parsed successfully.")
+          PY
