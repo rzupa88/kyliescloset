@@ -13,3 +13,5 @@ A kid-friendly closet + outfit planner app (monorepo).
 
 ## Project approach
 We ship in milestones with small PRs, frequent documentation, and clear acceptance criteria.
+## CI
+Pull requests run a basic CI workflow that checks repository hygiene (docs present, no trailing whitespace).
