@@ -1,0 +1,27 @@
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Node
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build / dist
+dist/
+build/
+.next/
+out/
+
+# Env
+.env
+.env.*
