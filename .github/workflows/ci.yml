@@ -42,3 +42,5 @@ jobs:
             yaml.safe_load(p.read_text())
           print("YAML parsed successfully.")
           PY
+      - name: Build bg service image
+        run: docker build -t kyliescloset-bg ./services/bg

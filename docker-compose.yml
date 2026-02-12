@@ -1,0 +1,6 @@
+services:
+  bg:
+    build:
+      context: ./services/bg
+    ports:
+      - "8000:8000"
